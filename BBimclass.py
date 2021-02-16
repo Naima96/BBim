@@ -4,6 +4,7 @@ Created on Thu Feb  4 19:02:05 2021
 
 @author: al-abiad
 """
+
 import matplotlib
 
 matplotlib.use("Qt5Agg")
@@ -20,7 +21,7 @@ from Python_G_to_sec import main
 
 class BBim(object):
     
-    def __init__(self,pathDroite,pathGauche):
+    def __init__(self,pathDroite,pathGauche,start_time="",end_time=""):
         """
         1 is right and 2 is left
 
@@ -140,10 +141,21 @@ class BBim(object):
         lagInd=np.arange(-np.max([len(signal2_interp_trun[text]),len(signal1_interp_trun[text])]),np.max([len(signal2_interp_trun[text]),len(signal1_interp_trun[text])]))
         lag=lagInd[lag]
         
-        if(lag<0):
+        lag=0 
+        if(lag<=0):
             signal2_interp_trun_align=signal2_interp_trun.iloc[-lag:len(signal2_interp_trun)]
         else:
             print("error: I need to fix")
+            
+            
+        #---crop HAI---
+        if start_time != "":
+            start_time=datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+            end_time=datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S')
+        
+            signal2_interp_trun_align=signal2_interp_trun_align.truncate(before=start_time,after=end_time)
+            signal1_interp_trun=signal1_interp_trun.truncate(before=start_time,after=end_time)
+        
             
         self.Gauche_signal=signal2_interp_trun_align
         self.Droite_signal=signal1_interp_trun
@@ -190,7 +202,7 @@ class BBim(object):
         plt.plot(self.Vect_mag_droite,label="Droite")
         plt.legend()
         
-    def calculate_use_ratio(self,dominant_limb='Gauche',apply_filter=True):
+    def calculate_magnitude_ratio(self,dominant_limb='Gauche',apply_filter=True):
         """
         if I am not using the dominant then use ratio is zero 
         If I am not using the dominant and non-dominant the use ratio is zero
@@ -223,23 +235,37 @@ class BBim(object):
             self.use_ratio=np.log(self.use_ratio)
 
         
-    def plot_use_ratio(self):
+    def plot_magnitude_ratio(self):
         
         plt.figure()
-        plt.title("Use ratio")
+        plt.title("Magnitude ratio")
         plt.plot(self.use_ratio)
         
     def calculate_total_activity(self):
         """
-        
+        calculate sum of seconds where activity counts is greater than 10 
 
         Returns
         -------
         None.
 
         """
-        print("not done yet")
+        self.Gauche_total_activity= np.sum(self.Vect_mag_gauche>10)
+        self.Droite_total_activity= np.sum(self.Vect_mag_droite>10)
         
+        print("The total activity or sum of seconds where activity count>10 of gauche hand is %d and of droite hand is %d"%(self.Gauche_total_activity,self.Droite_total_activity))
+        
+        
+    def calculate_use_ratio(self,dominant="Gauche"):
+        
+        if dominant=="Gauche":
+            self.use_ratio=self.Droite_total_activity/self.Gauche_total_activity
+        else:
+            self.use_ratio=self.Gauche_total_activity/self.Droite_total_activity
+            
+        print("The use ratio is %f "%(self.use_ratio))
+
+            
     def calculate_bilateral_magnitude(self):
         """
         The Bilateral Magnitude reflects the intensity of activity 
@@ -317,8 +343,35 @@ class BBim(object):
            
         
         
+    def Calculate_MAUI(self, dominant="gauche"):
+        
+        if dominant== "gauche":
+            Activity_count_dom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite==0])
+            Activity_count_nondom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche==0])
+            
+            self.MAUI=Activity_count_nondom/Activity_count_dom
+            
+            print("The MAUI is %f "%(self.MAUI))
+            
+    def Calculate_BAUI(self, dominant="gauche"):
+        
+        if dominant=="gauche":
+            Activity_count_dom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite!=0])
+            Activity_count_nondom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche!=0])
+            
+            self.BAUI=Activity_count_nondom/Activity_count_dom
+            
+            print("The BAUI is %f "%(self.BAUI))
         
         
+    def Plot_Histo(self):
+        plt.figure()
+        Vect_mag_droite_removezero=self.Vect_mag_droite[self.Vect_mag_droite!=0]
+        Vect_mag_gauche_removezero=self.Vect_mag_gauche[self.Vect_mag_gauche!=0]
+        plt.hist(Vect_mag_gauche_removezero,bins='auto', alpha=0.5, label='gauche')
+        plt.hist(Vect_mag_droite_removezero,bins='auto', alpha=0.5, label='droite')
+        plt.legend(loc='upper right')
+        plt.show()
         
         
         
@@ -335,22 +388,35 @@ class BBim(object):
 if __name__=="__main__":
     
     plt.close('all')
-    pathDroite="d:\\Users\\al-abiad\\Desktop\\BB-Bim\\test 2\\D_CA_Test1.CWA"
-    pathGauche="d:\\Users\\al-abiad\\Desktop\\BB-Bim\\test 2\\G_CA_Test1.CWA"
+    pathDroite="d:\\Users\\al-abiad\\Desktop\\BB-Bim\\test 3\\D_SL_Test2.CWA"
+    pathGauche="d:\\Users\\al-abiad\\Desktop\\BB-Bim\\test 3\\G_SL_Test2.CWA"
     
+    
+    # start_timee="2021-02-11 13:30:00"
+    # end_timee="2021-02-11 13:42:00"
+    start_timee="2021-02-11 15:19:00"
+    end_timee="2021-02-11 15:40:00"
+    # start_timee=""
+    # end_timee=""
     #Gauche is the dominant limb
     
-    bb=BBim(pathDroite,pathGauche)
+    bb=BBim(pathDroite,pathGauche,start_time=start_timee,end_time=end_timee)
     bb.plot_signal()
     
     bb.Calculate_activity_count()
     bb.Calculate_vector_Magnitude()
     bb.plt_vectmag()
+    bb.Plot_Histo()
+    bb.calculate_total_activity()
+    # bb.calculate_magnitude_ratio()
+    # bb.plot_magnitude_ratio()
+    # bb.calculate_bilateral_magnitude()
+    # bb.plot_bilateral_magnitude()
+    
     bb.calculate_use_ratio()
-    bb.plot_use_ratio()
-    bb.calculate_bilateral_magnitude()
-    bb.plot_bilateral_magnitude()
-    bb.perform_statistics()
+    bb.Calculate_BAUI()
+    bb.Calculate_MAUI()
+    # bb.perform_statistics()
     
     
     

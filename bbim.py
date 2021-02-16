@@ -34,6 +34,11 @@ x2, y2, z2 = ts2.get_channels(["X", "Y", "Z"])
 time1=x1.timestamps
 time2=x2.timestamps
 
+
+11.02.2021, entre 13h30 et 13h42.
+
+t1="2021-02-11-13:30:00.000"
+t2="2021-02-11-13:42:00.000"
 # mattime=[datetime2matlabdn(i) for i in time]
 # mattime2=[i.replace(",", ".") for i in mattime2]
 # mattime2=[float(i) for i in mattime2 ]
