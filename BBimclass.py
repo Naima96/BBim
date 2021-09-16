@@ -6,7 +6,7 @@ Created on Thu Feb  4 19:02:05 2021
 """
 
 import matplotlib
-
+import pdb
 matplotlib.use("Qt5Agg")
 
 import matplotlib.pyplot as plt
@@ -14,7 +14,6 @@ import numpy as np
 import pandas as pd
 from scipy import interpolate
 from datetime import datetime, date, time, timedelta
-from pampro import data_loading, Time_Series, Channel, channel_inference, triaxial_calibration
 
 from data_loading import load
 
@@ -39,7 +38,7 @@ class BBim(object):
         if start_time!="":
             time1,x_ind1,x1,y1,z1 = load(pathDroite,startreading=start_time,stopreading=end_time)
             time2,x_ind2,x2,y2,z2 = load(pathGauche,startreading=start_time,stopreading=end_time)
-
+            print(len(time1))
         
             # self.ts2=ts2
             # ts1, header1 = data_loading.load(pathDroite)
@@ -281,6 +280,33 @@ class BBim(object):
         mm=np.array([np.sqrt(i) for i in m])
         
         self.Vect_mag_droite = mm 
+        
+        difference=len(self.Vect_mag_droite)-len(self.Vect_mag_gauche)
+         
+        if difference>0:
+             self.Vect_mag_droite=self.Vect_mag_droite[:len(self.Vect_mag_droite)-difference]
+             
+        if difference<0:
+             self.Vect_mag_gauche=self.Vect_mag_gauche[:len(self.Vect_mag_gauche)+difference]
+        
+            
+        
+        
+    def Calculate_mean_median_VectorMagnitude(self,dominant_limb='gauche'):
+        
+        if dominant_limb=='gauche':
+            self.Med_VM_dominant=np.median(self.Vect_mag_gauche)
+            self.Med_VM_nondominant=np.median(self.Vect_mag_droite)
+            self.Mean_VM_dominant=np.mean(self.Vect_mag_gauche)
+            self.Mean_VM_nondominant=np.mean(self.Vect_mag_droite)
+        else:
+            self.Med_VM_nondominant=np.median(self.Vect_mag_gauche)
+            self.Med_VM_dominant=np.median(self.Vect_mag_droite)
+            
+            self.Mean_VM_nondominant=np.mean(self.Vect_mag_gauche)
+            self.Mean_VM_dominant=np.mean(self.Vect_mag_droite)
+        
+        
                 
     def plt_vectmag(self):
         
@@ -321,7 +347,12 @@ class BBim(object):
         else:
             self.mag_ratio=np.divide(self.Vect_mag_gauche+1, self.Vect_mag_droite+1, out=np.zeros_like(self.Vect_mag_gauche), where=self.Vect_mag_droite!=0)
             self.mag_ratio=np.log(self.mag_ratio)
-
+            
+            
+    def Calculate_mean_median_Mag_ratio(self):
+        
+        self.Med_mag_ratio=np.median(self.mag_ratio)
+        self.Mean_mag_ratio=np.mean(self.mag_ratio)
         
     def plot_magnitude_ratio(self):
         
@@ -329,7 +360,7 @@ class BBim(object):
         plt.title("Magnitude ratio")
         plt.plot(self.mag_ratio)
         
-    def calculate_total_activity(self):
+    def calculate_total_activity(self,vm_thresh=10,dominant_limb='gauche'):
         """
         calculate sum of seconds where activity counts is greater than 10 
 
@@ -338,20 +369,39 @@ class BBim(object):
         None.
 
         """
-        self.Gauche_total_activity= np.sum(self.Vect_mag_gauche>10)
-        self.Droite_total_activity= np.sum(self.Vect_mag_droite>10)
         
-        print("The total activity or sum of seconds where activity count>10 of gauche hand is %d and of droite hand is %d"%(self.Gauche_total_activity,self.Droite_total_activity))
+        if dominant_limb=="gauche":
+            self.dominant_total_activity= np.sum(self.Vect_mag_gauche>vm_thresh)
+            self.nondominant_total_activity= np.sum(self.Vect_mag_droite>vm_thresh)
+        else:
+            self.nondominant_total_activity= np.sum(self.Vect_mag_gauche>vm_thresh)
+            self.dominant_total_activity= np.sum(self.Vect_mag_droite>vm_thresh)
+            
         
+        print("The total activity or sum of seconds where activity count>10 of dominant hand is %d and of nondominant hand is %d"%(self.dominant_total_activity,self.nondominant_total_activity))
+        
+        
+    def Calculate_percent_activity(self,vm_thresh=10,dominant_limb='gauche'):
+        
+
+            
+        self.percent_act_dominant=self.dominant_total_activity*100/len(self.Vect_mag_gauche)
+        self.percent_act_nondominant=self.nondominant_total_activity*100/len(self.Vect_mag_gauche)
+
+
         
     def calculate_use_ratio(self,dominant="gauche"):
+
+        self.use_ratio=self.nondominant_total_activity/self.dominant_total_activity
+        
         
         if dominant=="gauche":
-            print("prefered hand is gauche?")
-            self.use_ratio=self.Droite_total_activity/self.Gauche_total_activity
+            self.mag_use_ratio=np.sum(self.Vect_mag_droite)/np.sum(self.Vect_mag_gauche)
         else:
-            self.use_ratio=self.Gauche_total_activity/self.Droite_total_activity
+            self.mag_use_ratio=np.sum(self.Vect_mag_gauche)/np.sum(self.Vect_mag_droite)
             
+        
+        
         print("The use ratio is %f "%(self.use_ratio))
 
             
@@ -376,6 +426,12 @@ class BBim(object):
         self.Vect_mag_gauche_filtered=np.convolve(self.Vect_mag_gauche, np.ones(N)/N, mode='valid')
 
         self.bilateral_magnitude=self.Vect_mag_droite_filtered+self.Vect_mag_gauche_filtered
+        
+        
+    def Calculate_mean_median_bilateral(self):
+        
+        self.Med_bilateral=np.median(self.bilateral_magnitude)
+        self.Mean_bilateral=np.mean(self.bilateral_magnitude)
         
     def plot_bilateral_magnitude(self):
         
@@ -432,57 +488,90 @@ class BBim(object):
            
         
         
-    def Calculate_MAUI(self, dominant="gauche"):
+    def Calculate_MAUI(self, dominant="gauche",vm_thresh=10):
         
         if dominant== "gauche":
             print("prefered hand is gauche?")
-            Activity_count_dom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite==0])
-            Activity_count_nondom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche==0])
+            Activity_count_dom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite<vm_thresh])
+            Activity_count_nondom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche<vm_thresh])
             
-            self.nonprefmoving=np.sum((self.Vect_mag_droite>=10) & (self.Vect_mag_gauche<10))
-            self.prefmoving=np.sum((self.Vect_mag_gauche>=10) & (self.Vect_mag_droite<10))
+            self.nonpref_moving_n_pref_notmoving=np.sum((self.Vect_mag_droite>=vm_thresh) & (self.Vect_mag_gauche<vm_thresh))
+            self.pref_moving_n_nonpref_notmoving=np.sum((self.Vect_mag_gauche>=vm_thresh) & (self.Vect_mag_droite<vm_thresh))
+            
+            self.nonprefnotmoving=np.sum(self.Vect_mag_droite<vm_thresh)
+            self.prefnotmoving=np.sum(self.Vect_mag_gauche<vm_thresh)
+            
+            self.pref_moving=self.dominant_total_activity
+            self.nonpref_moving=self.nondominant_total_activity
             
             self.MAUI=Activity_count_nondom/Activity_count_dom
+
+            
             print("gauche is dominant")
         else:
-            Activity_count_dom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche==0])
-            Activity_count_nondom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite==0])
+            Activity_count_dom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche<vm_thresh])
+            Activity_count_nondom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite<vm_thresh])
             
-            self.nonprefmoving=np.sum((self.Vect_mag_gauche>=10) & (self.Vect_mag_droite<10))
-            self.prefmoving=np.sum((self.Vect_mag_droite>=10) & (self.Vect_mag_gauche<10))
+            self.nonpref_moving_n_pref_notmoving=np.sum((self.Vect_mag_gauche>=vm_thresh) & (self.Vect_mag_droite<vm_thresh))
+            self.pref_moving_n_nonpref_notmoving=np.sum((self.Vect_mag_droite>=vm_thresh) & (self.Vect_mag_gauche<vm_thresh))
             
-            self.MAUI=Activity_count_nondom/Activity_count_dom
+            self.nonprefnotmoving=np.sum(self.Vect_mag_gauche<vm_thresh)
+            self.prefnotmovingnp.sum(self.Vect_mag_droite<vm_thresh)
+            
+            self.pref_moving=self.dominant_total_activity
+            self.nonpref_moving=self.nondominant_total_activity
+
             print("droite is dominant")
             
-        self.actprefhandzero=Activity_count_nondom
-        self.actnonprefhandzero=Activity_count_dom
+            
+            
+            
+        self.actprefhandzero=Activity_count_nondom/self.prefnotmoving
+        self.actnonprefhandzero=Activity_count_dom/self.nonprefnotmoving
+
+        self.nonpref_moving_n_pref_notmoving=self.nonpref_moving_n_pref_notmoving*100/len(self.Vect_mag_gauche)
+        self.pref_moving_n_nonpref_notmoving=self.pref_moving_n_nonpref_notmoving*100/len(self.Vect_mag_gauche)
         
+        self.prefnotmoving=self.prefnotmoving*100/len(self.Vect_mag_gauche)
+        self.nonprefnotmoving=self.nonprefnotmoving*100/len(self.Vect_mag_gauche)
         
         print("The MAUI is %f "%(self.MAUI))
             
-    def Calculate_BAUI(self, dominant="gauche"):
+    def Calculate_BAUI(self, dominant="gauche",vm_thresh=10):
         
         if dominant=="gauche":
             print("prefered hand is gauche?")
             
-            Activity_count_dom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite!=0])
+            Activity_count_dom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite>vm_thresh])
             
-            Activity_count_nondom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche!=0])
+            Activity_count_nondom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche>vm_thresh])
             
-            self.bothmoving=np.sum((self.Vect_mag_gauche>10) & (self.Vect_mag_droite>10))
+            self.bothmoving=np.sum((self.Vect_mag_gauche>vm_thresh) & (self.Vect_mag_droite>vm_thresh))
             
             self.BAUI=Activity_count_nondom/Activity_count_dom
-        else:
-            Activity_count_dom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche!=0])
-            Activity_count_nondom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite!=0])
             
-            self.bothmoving=np.sum((self.Vect_mag_gauche>=10) & (self.Vect_mag_droite>=10))
+        else:
+            Activity_count_dom=np.sum(self.Vect_mag_droite[self.Vect_mag_gauche>vm_thresh])
+            Activity_count_nondom=np.sum(self.Vect_mag_gauche[self.Vect_mag_droite>vm_thresh])
+            
+            self.bothmoving=np.sum((self.Vect_mag_gauche>=vm_thresh) & (self.Vect_mag_droite>=vm_thresh))
             # self.lenactnonprefhandnotzero=len(self.Vect_mag_droite[self.Vect_mag_gauche>10])
             
             self.BAUI=Activity_count_nondom/Activity_count_dom
-            
-        self.actprefhandnotzero=Activity_count_nondom
-        self.actnonprefhandnotzero=Activity_count_dom
+        
+        
+        self.bothnotmoving=np.sum((self.Vect_mag_gauche<vm_thresh) & (self.Vect_mag_droite<vm_thresh))
+        
+        self.pref_moving=self.dominant_total_activity*100/len(self.Vect_mag_gauche)
+        self.nonpref_moving=self.nondominant_total_activity*100/len(self.Vect_mag_gauche)
+        
+        self.actprefhandnotzero=Activity_count_nondom/self.pref_moving
+        self.actnonprefhandnotzero=Activity_count_dom/self.nonpref_moving
+        
+        self.bothmoving=self.bothmoving*100/len(self.Vect_mag_gauche)
+        
+        self.bothnotmoving=self.bothnotmoving*100/len(self.Vect_mag_gauche)
+        
         print("The BAUI is %f "%(self.BAUI))
         
         
@@ -541,6 +630,7 @@ if __name__=="__main__":
     bb=BBim(pathDroite,pathGauche,start_time=start_timee,end_time=end_timee)
     bb.plot_signal()
     
+    # pdb.set_trace()
     bb.Calculate_activity_count()
     bb.Calculate_vector_Magnitude()
     bb.plt_vectmag()

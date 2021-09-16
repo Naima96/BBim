@@ -204,6 +204,26 @@
                         </layout>
                       </object>
                     </child>
+                    <child>
+                      <object class="ttk.Label" id="label_1_2_3">
+                        <property name="text" translatable="yes">Threshold on Vector magnitude</property>
+                        <layout manager="grid">
+                          <property name="column">0</property>
+                          <property name="propagate">True</property>
+                          <property name="row">9</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Entry" id="VM_thresh">
+                        <property name="text" translatable="yes">10</property>
+                        <layout manager="grid">
+                          <property name="column">1</property>
+                          <property name="propagate">True</property>
+                          <property name="row">9</property>
+                        </layout>
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child>
@@ -231,6 +251,29 @@
                         <property name="idtocommand">false</property>
                         <property name="text" translatable="yes">Detect dates</property>
                         <bind sequence="&lt;Button-1&gt;" handler="Detect_dates" add="" />
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="btn_export">
+                        <property name="idtocommand">false</property>
+                        <property name="text" translatable="yes">Export</property>
+                        <bind sequence="&lt;Button-1&gt;" handler="export_data" add="" />
+                        <layout manager="pack">
+                          <property name="propagate">True</property>
+                          <property name="side">top</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Checkbutton" id="cb_plot">
+                        <property name="idtocommand">false</property>
+                        <property name="state">normal</property>
+                        <property name="text" translatable="yes">plot ?</property>
+                        <property name="variable">boolean:var_plot</property>
                         <layout manager="pack">
                           <property name="propagate">True</property>
                           <property name="side">top</property>
@@ -2706,7 +2749,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">15</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Start time</property>
+                                <property name="text" translatable="yes">Filename</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">100</property>
@@ -2718,7 +2761,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Endtime</property>
+                                <property name="text" translatable="yes">Start time</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">100</property>
@@ -2730,7 +2773,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">10</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Use ratio</property>
+                                <property name="text" translatable="yes">End time</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">70</property>
@@ -2742,7 +2785,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Maui</property>
+                                <property name="text" translatable="yes">Threshold</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">70</property>
@@ -2754,7 +2797,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Baui</property>
+                                <property name="text" translatable="yes">nonpreferred total activity time</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">70</property>
@@ -2766,7 +2809,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Droite Tot Act</property>
+                                <property name="text" translatable="yes">Preferred total activity time</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">100</property>
@@ -2778,7 +2821,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Gauche Tot Act</property>
+                                <property name="text" translatable="yes">% Time non prefered hand moving</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">100</property>
@@ -2790,7 +2833,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Act of non-pref/Act pref 0</property>
+                                <property name="text" translatable="yes">% Time prefered hand moving</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">150</property>
@@ -2802,7 +2845,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Act of pref/Act non-pref 0</property>
+                                <property name="text" translatable="yes">% Time both moving</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">150</property>
@@ -2814,7 +2857,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Act of non-pref/Act pref not 0</property>
+                                <property name="text" translatable="yes">% Time non prefered not moving</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">150</property>
@@ -2826,7 +2869,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Act of non-pref/Act pref not 0</property>
+                                <property name="text" translatable="yes">% Time prefered not moving </property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">150</property>
@@ -2838,7 +2881,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Time both hands moving</property>
+                                <property name="text" translatable="yes">% Time both hand not moving</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">150</property>
@@ -2850,7 +2893,7 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Time pref mov/ non pref not mov</property>
+                                <property name="text" translatable="yes">% Time nonpref mov/ pref not mov</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">150</property>
@@ -2862,10 +2905,166 @@
                                 <property name="heading_anchor">w</property>
                                 <property name="minwidth">20</property>
                                 <property name="stretch">true</property>
-                                <property name="text" translatable="yes">Time pref mov/ non pref not mov</property>
+                                <property name="text" translatable="yes">% Time pref mov/ nonpref not mov</property>
                                 <property name="tree_column">false</property>
                                 <property name="visible">true</property>
                                 <property name="width">150</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_1_2">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Use ratio (calculated as ratio of time)</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_3_4">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">mean nonpreferred Vector magnitude </property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_5_6">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">mean preferred Vector magnitude </property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_7_8">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Mean Magnitude ratio</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_9_10">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Median magnitude ratio</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_1_2_3">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Median Bilateral magnitude</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_4_5">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Mean VM of non-pref such that Act pref &lt;thresh</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_6_7">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Mean VM of pref such that Act non-pref &lt;thresh</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_8_9">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Mean VM of non-pref such that Act pref &gt;thresh</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_1_2_3_4">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Mean VM of pref such that Act non pref &gt;thresh</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_5_6_7">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Maui (calculated ratio of Vect magnitude)</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_8_9_10">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Baui (calculated ratio on vector magnitude)</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="ttk.Treeview.Column" id="column_11_12">
+                                <property name="column_anchor">w</property>
+                                <property name="heading_anchor">w</property>
+                                <property name="minwidth">20</property>
+                                <property name="stretch">true</property>
+                                <property name="text" translatable="yes">Use ratio (calculated on magnitude)</property>
+                                <property name="tree_column">false</property>
+                                <property name="visible">true</property>
+                                <property name="width">200</property>
                               </object>
                             </child>
                           </object>

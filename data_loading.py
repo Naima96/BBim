@@ -78,20 +78,20 @@ def axivity_parse_header(fh):
     shippingMinLightLevel = unpack('H', axivity_read(fh,2))[0]
     loggingStartTime = axivity_read(fh,4)
     loggingEndTime = axivity_read(fh,4)
-    print(loggingEndTime)
+    # print(loggingEndTime)
     loggingCapacity = unpack('I', axivity_read(fh,4))[0]
-    print("loggingCapacity")
-    print(loggingCapacity)
+    # print("loggingCapacity")
+    # print(loggingCapacity)
     allowStandby = unpack('B', axivity_read(fh,1))[0]
     debuggingInfo = unpack('B', axivity_read(fh,1))[0]
-    print("debuggingInfo")
-    print(debuggingInfo)
+    # print("debuggingInfo")
+    # print(debuggingInfo)
     batteryMinimumToLog = unpack('H', axivity_read(fh,2))[0]
-    print("batteryMinimumToLog")
-    print(batteryMinimumToLog)
+    # print("batteryMinimumToLog")
+    # print(batteryMinimumToLog)
     batteryWarning = unpack('H', axivity_read(fh,2))[0]
-    print("batteryWarning")
-    print(batteryWarning)
+    # print("batteryWarning")
+    # print(batteryWarning)
     enableSerial = unpack('B', axivity_read(fh,1))[0]
     lastClearTime = axivity_read(fh,4)
     samplingRate = unpack('B', axivity_read(fh,1))[0]
@@ -287,10 +287,10 @@ def load(source, datetime_format="%d/%m/%Y %H:%M:%S:%f", datetime_column=0, igno
                 lastTimestampOffset = timestampOffset - sampleCount
                 lastTimestamp = timestamp
                 
-
+                # print(final_timestamp)
 
                 if final_timestamp>startreading and final_timestamp<stopreading:
-    
+                    # print("we are inside condition")
                     axivity_indices[num_pages] = num_samples
                     axivity_timestamps[num_pages] = final_timestamp
                     axivity_light[num_pages] = light
@@ -319,6 +319,9 @@ def load(source, datetime_format="%d/%m/%Y %H:%M:%S:%f", datetime_column=0, igno
                         axivity_z[num_samples] = z
         
                         num_samples += 1
+                        
+                if final_timestamp>stopreading:
+                    break
                 else:
       
                     fh.seek((sampleCount)*4,1) 
@@ -332,6 +335,8 @@ def load(source, datetime_format="%d/%m/%Y %H:%M:%S:%f", datetime_column=0, igno
             header = axivity_read(fh,2)
     
             n=n+1
+            
+
     except IOError:
         # End of file
         pass

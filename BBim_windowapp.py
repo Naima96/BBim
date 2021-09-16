@@ -192,9 +192,11 @@ class MyApplication:
         self.ent_start= self.builder.get_object('ent_start')
         self.ent_stop = self.builder.get_object('ent_stop')
         self.pref_limb = self.builder.get_object('pref_limb')
+        self.VM_thresh=self.builder.get_object('VM_thresh')
         
         #buttons
         self.calculate=self.builder.get_object('btn_calculate')
+        self.export=self.builder.get_object('btn_export')
         
         #calendar
         
@@ -202,6 +204,12 @@ class MyApplication:
         
         #combobox
         self.file_combo = builder.get_object('combo_files')
+        
+        #checkbox
+        self.cb_plot = builder.get_object('cb_plot')
+        
+        self.checked = builder.get_variable("var_plot")
+
         
         
         #scrollbar and canvas
@@ -227,6 +235,33 @@ class MyApplication:
         files=[f for f in cwa_files if f.find("D_")!=-1]
 
         self.file_combo.config(values=files)
+        
+        
+    def export_data(self,event=None):
+        print("exporting data")
+        
+        heading_names=[]
+        i=0
+        print(self.treeview.heading(i)['text'])
+        print(len(self.treeview["columns"]))
+        
+        for i in range(0,len(self.treeview["columns"])):
+            
+            heading_names.append(self.treeview.heading(i)['text'])
+        
+        export_path=self.path
+        file_name=self.files[0][2:-4]
+        
+        exported_list=[]
+        
+        for line in self.treeview.get_children():
+            exported_list.append(self.treeview.item(line)['values'])
+            
+        self.exported_results=pd.DataFrame(exported_list, columns=heading_names)
+        
+        self.exported_results.to_excel(export_path+"\\"+file_name+".xlsx",index=False,header=True)
+
+        
 
 
     
@@ -238,6 +273,8 @@ class MyApplication:
         self.files=[testdroite,testgauche]
         
         self.lbl_files.configure(text = 'The files are %s and %s'%(self.files[0],self.files[1]))
+        
+
 
         
     def select_date(self,event=None):
@@ -264,7 +301,9 @@ class MyApplication:
         
     def Calculate_everything(self, event=None):
         print("Calculatingg....")
+        print(self.checked.get())
         
+        plot_all=self.checked.get()
         
         if self.files[0].find("D_") != -1:
             print("make sure that the file %s is Droite" %(self.files[0]))
@@ -287,18 +326,25 @@ class MyApplication:
         
         
         pref_hand=self.pref_limb.get()
+        VM_thresh=int(self.VM_thresh.get())
+        
         print(pref_hand)
+        print(VM_thresh)
         
         list_results=[]
         
         for i in range(0,len(start_timee)):
             print("interpolating-->cutting")
+            
+            print(start_timee[i])
+            
             self.bb=BBim(pathDroite,pathGauche,start_time=start_timee[i],end_time=end_timee[i])
             print("Done interpolating-->cutting")
     
             print("ploting signals")
             
-            self.plot_signal(i)
+            if plot_all==True:
+                self.plot_signal(i)
             
             print("done ploting signals")
             
@@ -310,146 +356,189 @@ class MyApplication:
             
             self.bb.Calculate_vector_Magnitude()
             
+            print("calculating statistics of vector magnitude")
+            
+            self.bb.Calculate_mean_median_VectorMagnitude(dominant_limb=pref_hand)
+            
             print("plotting vector magnitude")
             
-            self.plot_vectormagnitude(i)
+            if plot_all==True:
+                self.plot_vectormagnitude(i)
             
             print("calculating total activity")
-            self.bb.calculate_total_activity()
+            self.bb.calculate_total_activity(vm_thresh=VM_thresh,dominant_limb=pref_hand)
             
+            
+            print("calculate percent activity")
+            
+            self.bb.Calculate_percent_activity(vm_thresh=VM_thresh,dominant_limb=pref_hand)
+                
             print("Calculating magnitude ratio")
             
             self.bb.calculate_magnitude_ratio(dominant_limb=pref_hand)
             
-            print("ploting magnitude ratio")
+            print("calculating statistics of magnitude ratio")
             
-            self.plot_magnituderatio(i)
+            self.bb.Calculate_mean_median_Mag_ratio()
+            
+            
+            print("ploting magnitude ratio")
+            if plot_all==True:
+                self.plot_magnituderatio(i)
             
             print("calculate Bilateral magnitude")
             
             self.bb.calculate_bilateral_magnitude()
             
-            print("plot Bilateral magnitude")
+            print("calculate statistics bilateral")
+            self.bb.Calculate_mean_median_bilateral()
             
-            self.plot_bilateralmagnitude(i)
+            print("plot Bilateral magnitude")
+            if plot_all==True:
+                self.plot_bilateralmagnitude(i)
             
             print("calculating use ratio, Baui, Maui")
             
             self.bb.calculate_use_ratio(dominant=pref_hand)
-            self.bb.Calculate_BAUI(dominant=pref_hand)
-            self.bb.Calculate_MAUI(dominant=pref_hand)
+            self.bb.Calculate_BAUI(dominant=pref_hand,vm_thresh=VM_thresh)
+            self.bb.Calculate_MAUI(dominant=pref_hand,vm_thresh=VM_thresh)
             
             print("ploting histogram")
+            if plot_all==True:
+                self.plot_histo(i)
             
-            self.plot_histo(i)
+            list_results.append([self.files[0][2:-4],start_timee[i],end_timee[i],VM_thresh,
+                                 '%d'%(self.bb.nondominant_total_activity),
+                                 '%d'%(self.bb.dominant_total_activity),
+                                 '%.2f'%(self.bb.percent_act_nondominant),
+                                 '%.2f'%(self.bb.percent_act_dominant),
+                                 '%.2f '%(self.bb.bothmoving),
+                                 '%.2f'%(self.bb.nonprefnotmoving),
+                                 '%.2f'%(self.bb.prefnotmoving),
+                                 '%.2f'%(self.bb.bothnotmoving),
+                                 '%.2f '%(self.bb.nonpref_moving_n_pref_notmoving),
+                                 '%.2f '%(self.bb.pref_moving_n_nonpref_notmoving),
+                                 '%.2f '%(self.bb.use_ratio),
+                                 '%.2f '%(self.bb.Mean_VM_nondominant),
+                                 '%.2f '%(self.bb.Mean_VM_dominant),
+                                 
+                                 '%.2f'%(self.bb.Mean_mag_ratio),
+                                 '%.2f'%(self.bb.Med_mag_ratio),
+                                 '%.2f'%(self.bb.Med_bilateral),
+                                 
+                                 '%.2f '%(self.bb.actprefhandzero),
+                                 '%.2f '%(self.bb.actnonprefhandzero),
+                                 '%.2f '%(self.bb.actprefhandnotzero),
+                                 '%.2f '%(self.bb.actnonprefhandnotzero),
+                                 
+                                 '%.2f'%(self.bb.MAUI),
+                                 '%.2f'%(self.bb.BAUI),
+                                 '%.2f'%(self.bb.mag_use_ratio)
+                                ])
             
-            list_results.append([start_timee[i],end_timee[i],'%.2f '%(self.bb.use_ratio),'%.2f'%(self.bb.MAUI),
-                                '%.2f'%(self.bb.BAUI),'%d activities'%(self.bb.Droite_total_activity),
-                                '%d activities'%(self.bb.Gauche_total_activity),'%.2f '%(self.bb.actprefhandzero),
-                                '%.2f '%(self.bb.actnonprefhandzero),'%.2f '%(self.bb.actprefhandnotzero),
-                                '%.2f '%(self.bb.actnonprefhandnotzero),'%.2f '%(self.bb.nonprefmoving),
-                                '%.2f '%(self.bb.prefmoving),'%.2f '%(self.bb.bothmoving)])
+
             #%% conditions for labels
-            if i==0:
-                self.lbl_useratio.configure(text ='%.2f '%(self.bb.use_ratio))
-                self.lbl_maui.configure(text ='%.2f'%(self.bb.MAUI))
-                self.lbl_baui.configure(text ='%.2f'%(self.bb.BAUI))
-                self.lbl_Dact_count.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                self.lbl_Gact_count.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
+            if plot_all==True:
+                if i==0:
+                    self.lbl_useratio.configure(text ='%.2f '%(self.bb.use_ratio))
+                    self.lbl_maui.configure(text ='%.2f'%(self.bb.MAUI))
+                    self.lbl_baui.configure(text ='%.2f'%(self.bb.BAUI))
+                    self.lbl_Dact_count.configure(text ='%d activities'%(self.bb.Droite_total_activity))
+                    self.lbl_Gact_count.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
+                    
+                    self.lbl_actprefhandzero.configure(text ='%.2f '%(self.bb.actprefhandzero))
+                    self.lbl_actnonprefhandzero.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
+                    self.lbl_actprefhandnotzero.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
+                    self.lbl_actnonprefhandnotzero.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
+                    
+                    self.lbl_nonprefmoving.configure(text ='%.2f '%(self.bb.nonprefmoving))
+                    self.lbl_prefmoving.configure(text ='%.2f '%(self.bb.prefmoving))
+                    self.lbl_bothmoving.configure(text ='%.2f '%(self.bb.bothmoving))
+    
+                if i==1:
+                    
+                    self.lbl_useratio1.configure(text ='%.2f '%(self.bb.use_ratio))
+                    self.lbl_maui1.configure(text ='%.2f'%(self.bb.MAUI))
+                    self.lbl_baui1.configure(text ='%.2f'%(self.bb.BAUI))
+                    self.lbl_Dact_count1.configure(text ='%d activities'%(self.bb.Droite_total_activity))
+                    self.lbl_Gact_count1.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
+                    
+                    self.lbl_actprefhandzero1.configure(text ='%.2f '%(self.bb.actprefhandzero))
+                    self.lbl_actnonprefhandzero1.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
+                    self.lbl_actprefhandnotzero1.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
+                    self.lbl_actnonprefhandnotzero1.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
+                    
+                    self.lbl_nonprefmoving1.configure(text ='%.2f '%(self.bb.nonprefmoving))
+                    self.lbl_prefmoving1.configure(text ='%.2f '%(self.bb.prefmoving))
+                    self.lbl_bothmoving1.configure(text ='%.2f '%(self.bb.bothmoving))
+                    
+                if i==2:
+                    
+                    self.lbl_useratio2.configure(text ='%.2f '%(self.bb.use_ratio))
+                    self.lbl_maui2.configure(text ='%.2f'%(self.bb.MAUI))
+                    self.lbl_baui2.configure(text ='%.2f'%(self.bb.BAUI))
+                    self.lbl_Dact_count2.configure(text ='%d activities'%(self.bb.Droite_total_activity))
+                    self.lbl_Gact_count2.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
+                    
+                    self.lbl_actprefhandzero2.configure(text ='%.2f '%(self.bb.actprefhandzero))
+                    self.lbl_actnonprefhandzero2.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
+                    self.lbl_actprefhandnotzero2.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
+                    self.lbl_actnonprefhandnotzero2.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
+                    
+                    self.lbl_nonprefmoving2.configure(text ='%.2f '%(self.bb.nonprefmoving))
+                    self.lbl_prefmoving2.configure(text ='%.2f '%(self.bb.prefmoving))
+                    self.lbl_bothmoving2.configure(text ='%.2f '%(self.bb.bothmoving))
+                    
+                if i==3:
+                    
+                    self.lbl_useratio3.configure(text ='%.2f '%(self.bb.use_ratio))
+                    self.lbl_maui3.configure(text ='%.2f'%(self.bb.MAUI))
+                    self.lbl_baui3.configure(text ='%.2f'%(self.bb.BAUI))
+                    self.lbl_Dact_count3.configure(text ='%d activities'%(self.bb.Droite_total_activity))
+                    self.lbl_Gact_count3.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
+                    
+                    self.lbl_actprefhandzero3.configure(text ='%.2f '%(self.bb.actprefhandzero))
+                    self.lbl_actnonprefhandzero3.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
+                    self.lbl_actprefhandnotzero3.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
+                    self.lbl_actnonprefhandnotzero3.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
+                    
+                    self.lbl_nonprefmoving3.configure(text ='%.2f '%(self.bb.nonprefmoving))
+                    self.lbl_prefmoving3.configure(text ='%.2f '%(self.bb.prefmoving))
+                    self.lbl_bothmoving3.configure(text ='%.2f '%(self.bb.bothmoving))
+    
+                if i==4:
+                    
+                    self.lbl_useratio4.configure(text ='%.2f '%(self.bb.use_ratio))
+                    self.lbl_maui4.configure(text ='%.2f'%(self.bb.MAUI))
+                    self.lbl_baui4.configure(text ='%.2f'%(self.bb.BAUI))
+                    self.lbl_Dact_count4.configure(text ='%d activities'%(self.bb.Droite_total_activity))
+                    self.lbl_Gact_count4.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
+                    
+                    self.lbl_actprefhandzero4.configure(text ='%.2f '%(self.bb.actprefhandzero))
+                    self.lbl_actnonprefhandzero4.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
+                    self.lbl_actprefhandnotzero4.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
+                    self.lbl_actnonprefhandnotzero4.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
+                    
+                    self.lbl_nonprefmoving4.configure(text ='%.2f '%(self.bb.nonprefmoving))
+                    self.lbl_prefmoving4.configure(text ='%.2f '%(self.bb.prefmoving))
+                    self.lbl_bothmoving4.configure(text ='%.2f '%(self.bb.bothmoving))
+                    
+                if i==5:
                 
-                self.lbl_actprefhandzero.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                self.lbl_actnonprefhandzero.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                self.lbl_actprefhandnotzero.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                self.lbl_actnonprefhandnotzero.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                
-                self.lbl_nonprefmoving.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                self.lbl_prefmoving.configure(text ='%.2f '%(self.bb.prefmoving))
-                self.lbl_bothmoving.configure(text ='%.2f '%(self.bb.bothmoving))
-
-            if i==1:
-                
-                self.lbl_useratio1.configure(text ='%.2f '%(self.bb.use_ratio))
-                self.lbl_maui1.configure(text ='%.2f'%(self.bb.MAUI))
-                self.lbl_baui1.configure(text ='%.2f'%(self.bb.BAUI))
-                self.lbl_Dact_count1.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                self.lbl_Gact_count1.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                
-                self.lbl_actprefhandzero1.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                self.lbl_actnonprefhandzero1.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                self.lbl_actprefhandnotzero1.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                self.lbl_actnonprefhandnotzero1.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                
-                self.lbl_nonprefmoving1.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                self.lbl_prefmoving1.configure(text ='%.2f '%(self.bb.prefmoving))
-                self.lbl_bothmoving1.configure(text ='%.2f '%(self.bb.bothmoving))
-                
-            if i==2:
-                
-                self.lbl_useratio2.configure(text ='%.2f '%(self.bb.use_ratio))
-                self.lbl_maui2.configure(text ='%.2f'%(self.bb.MAUI))
-                self.lbl_baui2.configure(text ='%.2f'%(self.bb.BAUI))
-                self.lbl_Dact_count2.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                self.lbl_Gact_count2.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                
-                self.lbl_actprefhandzero2.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                self.lbl_actnonprefhandzero2.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                self.lbl_actprefhandnotzero2.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                self.lbl_actnonprefhandnotzero2.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                
-                self.lbl_nonprefmoving2.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                self.lbl_prefmoving2.configure(text ='%.2f '%(self.bb.prefmoving))
-                self.lbl_bothmoving2.configure(text ='%.2f '%(self.bb.bothmoving))
-                
-            if i==3:
-                
-                self.lbl_useratio3.configure(text ='%.2f '%(self.bb.use_ratio))
-                self.lbl_maui3.configure(text ='%.2f'%(self.bb.MAUI))
-                self.lbl_baui3.configure(text ='%.2f'%(self.bb.BAUI))
-                self.lbl_Dact_count3.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                self.lbl_Gact_count3.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                
-                self.lbl_actprefhandzero3.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                self.lbl_actnonprefhandzero3.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                self.lbl_actprefhandnotzero3.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                self.lbl_actnonprefhandnotzero3.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                
-                self.lbl_nonprefmoving3.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                self.lbl_prefmoving3.configure(text ='%.2f '%(self.bb.prefmoving))
-                self.lbl_bothmoving3.configure(text ='%.2f '%(self.bb.bothmoving))
-
-            if i==4:
-                
-                self.lbl_useratio4.configure(text ='%.2f '%(self.bb.use_ratio))
-                self.lbl_maui4.configure(text ='%.2f'%(self.bb.MAUI))
-                self.lbl_baui4.configure(text ='%.2f'%(self.bb.BAUI))
-                self.lbl_Dact_count4.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                self.lbl_Gact_count4.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                
-                self.lbl_actprefhandzero4.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                self.lbl_actnonprefhandzero4.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                self.lbl_actprefhandnotzero4.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                self.lbl_actnonprefhandnotzero4.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                
-                self.lbl_nonprefmoving4.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                self.lbl_prefmoving4.configure(text ='%.2f '%(self.bb.prefmoving))
-                self.lbl_bothmoving4.configure(text ='%.2f '%(self.bb.bothmoving))
-                
-            if i==5:
-                
-                self.lbl_useratio5.configure(text ='%.2f '%(self.bb.use_ratio))
-                self.lbl_maui5.configure(text ='%.2f'%(self.bb.MAUI))
-                self.lbl_baui5.configure(text ='%.2f'%(self.bb.BAUI))
-                self.lbl_Dact_count5.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                self.lbl_Gact_count5.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                
-                self.lbl_actprefhandzero5.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                self.lbl_actnonprefhandzero5.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                self.lbl_actprefhandnotzero5.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                self.lbl_actnonprefhandnotzero5.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                
-                self.lbl_nonprefmoving5.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                self.lbl_prefmoving5.configure(text ='%.2f '%(self.bb.prefmoving))
-                self.lbl_bothmoving5.configure(text ='%.2f '%(self.bb.bothmoving))
+                    self.lbl_useratio5.configure(text ='%.2f '%(self.bb.use_ratio))
+                    self.lbl_maui5.configure(text ='%.2f'%(self.bb.MAUI))
+                    self.lbl_baui5.configure(text ='%.2f'%(self.bb.BAUI))
+                    self.lbl_Dact_count5.configure(text ='%d activities'%(self.bb.Droite_total_activity))
+                    self.lbl_Gact_count5.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
+                    
+                    self.lbl_actprefhandzero5.configure(text ='%.2f '%(self.bb.actprefhandzero))
+                    self.lbl_actnonprefhandzero5.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
+                    self.lbl_actprefhandnotzero5.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
+                    self.lbl_actnonprefhandnotzero5.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
+                    
+                    self.lbl_nonprefmoving5.configure(text ='%.2f '%(self.bb.nonprefmoving))
+                    self.lbl_prefmoving5.configure(text ='%.2f '%(self.bb.prefmoving))
+                    self.lbl_bothmoving5.configure(text ='%.2f '%(self.bb.bothmoving))
         
         for d in list_results:
             self.treeview.insert('', tk.END, values=d)
