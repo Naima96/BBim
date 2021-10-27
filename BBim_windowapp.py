@@ -86,105 +86,32 @@ class MyApplication:
         
         #%% get labels
         self.lbl_files=builder.get_object('lbl_files')
-        self.lbl_useratio=builder.get_object('lbl_useratio')
-        self.lbl_baui=builder.get_object('lbl_baui')
-        self.lbl_maui=builder.get_object('lbl_maui')
-        self.lbl_Dact_count=builder.get_object('lbl_Dact_count')
-        self.lbl_Gact_count=builder.get_object('lbl_Gact_count')
+        self.lbl_useratio=builder.get_object('lbl_useratio0')
+        self.lbl_baui=builder.get_object('lbl_baui0')
+        self.lbl_maui=builder.get_object('lbl_maui0')
         
         self.lbl_date_start=builder.get_object('lbl_date_start')
         self.lbl_date_end=builder.get_object('lbl_date_end')
-        
-        self.lbl_actprefhandzero=builder.get_object('lbl_actprefhandzero')
-        self.lbl_actnonprefhandzero=builder.get_object('lbl_actnonprefhandzero')
-        self.lbl_actprefhandnotzero=builder.get_object('lbl_actprefhandnotzero')
-        self.lbl_actnonprefhandnotzero=builder.get_object('lbl_actnonprefhandnotzero')
-        
-        self.lbl_nonprefmoving=builder.get_object('lbl_nonprefmoving')
-        self.lbl_prefmoving=builder.get_object('lbl_prefmoving')
-        self.lbl_bothmoving=builder.get_object('lbl_bothmoving')
-        
+
         self.lbl_useratio1=builder.get_object('lbl_useratio1')
         self.lbl_baui1=builder.get_object('lbl_baui1')
         self.lbl_maui1=builder.get_object('lbl_maui1')
-        self.lbl_Dact_count1=builder.get_object('lbl_dact_count1')
-        self.lbl_Gact_count1=builder.get_object('lbl_gact_count1')
-        
-        
-
-        
-        self.lbl_actprefhandzero1=builder.get_object('lbl_actprefhandzero1')
-        self.lbl_actnonprefhandzero1=builder.get_object('lbl_actnonprefhandzero1')
-        self.lbl_actprefhandnotzero1=builder.get_object('lbl_actprefhandnotzero1')
-        self.lbl_actnonprefhandnotzero1=builder.get_object('lbl_actnonprefhandnotzero1')
-        
-        self.lbl_nonprefmoving1=builder.get_object('lbl_nonprefmoving1')
-        self.lbl_prefmoving1=builder.get_object('lbl_prefmoving1')
-        self.lbl_bothmoving1=builder.get_object('lbl_bothmoving1')
         
         self.lbl_useratio2=builder.get_object('lbl_useratio2')
         self.lbl_baui2=builder.get_object('lbl_baui2')
         self.lbl_maui2=builder.get_object('lbl_maui2')
-        self.lbl_Dact_count2=builder.get_object('lbl_dact_count2')
-        self.lbl_Gact_count2=builder.get_object('lbl_gact_count2')
-
-        
-        self.lbl_actprefhandzero2=builder.get_object('lbl_actprefhandzero2')
-        self.lbl_actnonprefhandzero2=builder.get_object('lbl_actnonprefhandzero2')
-        self.lbl_actprefhandnotzero2=builder.get_object('lbl_actprefhandnotzero2')
-        self.lbl_actnonprefhandnotzero2=builder.get_object('lbl_actnonprefhandnotzero2')
-        
-        self.lbl_nonprefmoving2=builder.get_object('lbl_nonprefmoving2')
-        self.lbl_prefmoving2=builder.get_object('lbl_prefmoving2')
-        self.lbl_bothmoving2=builder.get_object('lbl_bothmoving2')
         
         self.lbl_useratio3=builder.get_object('lbl_useratio3')
         self.lbl_baui3=builder.get_object('lbl_baui3')
         self.lbl_maui3=builder.get_object('lbl_maui3')
-        self.lbl_Dact_count3=builder.get_object('lbl_dact_count3')
-        self.lbl_Gact_count3=builder.get_object('lbl_gact_count3')
-
-        
-        self.lbl_actprefhandzero3=builder.get_object('lbl_actprefhandzero3')
-        self.lbl_actnonprefhandzero3=builder.get_object('lbl_actnonprefhandzero3')
-        self.lbl_actprefhandnotzero3=builder.get_object('lbl_actprefhandnotzero3')
-        self.lbl_actnonprefhandnotzero3=builder.get_object('lbl_actnonprefhandnotzero3')
-        
-        self.lbl_nonprefmoving3=builder.get_object('lbl_nonprefmoving3')
-        self.lbl_prefmoving3=builder.get_object('lbl_prefmoving3')
-        self.lbl_bothmoving3=builder.get_object('lbl_bothmoving3')
         
         self.lbl_useratio4=builder.get_object('lbl_useratio4')
         self.lbl_baui4=builder.get_object('lbl_baui4')
         self.lbl_maui4=builder.get_object('lbl_maui4')
-        self.lbl_Dact_count4=builder.get_object('lbl_dact_count4')
-        self.lbl_Gact_count4=builder.get_object('lbl_gact_count4')
-
-        
-        self.lbl_actprefhandzero4=builder.get_object('lbl_actprefhandzero4')
-        self.lbl_actnonprefhandzero4=builder.get_object('lbl_actnonprefhandzero4')
-        self.lbl_actprefhandnotzero4=builder.get_object('lbl_actprefhandnotzero4')
-        self.lbl_actnonprefhandnotzero4=builder.get_object('lbl_actnonprefhandnotzero4')
-        
-        self.lbl_nonprefmoving4=builder.get_object('lbl_nonprefmoving4')
-        self.lbl_prefmoving4=builder.get_object('lbl_prefmoving4')
-        self.lbl_bothmoving4=builder.get_object('lbl_bothmoving4')
         
         self.lbl_useratio5=builder.get_object('lbl_useratio5')
         self.lbl_baui5=builder.get_object('lbl_baui5')
         self.lbl_maui5=builder.get_object('lbl_maui5')
-        self.lbl_Dact_count5=builder.get_object('lbl_dact_count5')
-        self.lbl_Gact_count5=builder.get_object('lbl_gact_count5')
-
-        
-        self.lbl_actprefhandzero5=builder.get_object('lbl_actprefhandzero5')
-        self.lbl_actnonprefhandzero5=builder.get_object('lbl_actnonprefhandzero5')
-        self.lbl_actprefhandnotzero5=builder.get_object('lbl_actprefhandnotzero5')
-        self.lbl_actnonprefhandnotzero5=builder.get_object('lbl_actnonprefhandnotzero5')
-        
-        self.lbl_nonprefmoving5=builder.get_object('lbl_nonprefmoving5')
-        self.lbl_prefmoving5=builder.get_object('lbl_prefmoving5')
-        self.lbl_bothmoving5=builder.get_object('lbl_bothmoving5')
         
 
         #%% rest of the code
@@ -200,10 +127,13 @@ class MyApplication:
         
         #calendar
         
-        self.calendar=self.builder.get_object('calendarframe')
+        # self.calendar=self.builder.get_object('calendarframe')
         
         #combobox
         self.file_combo = builder.get_object('combo_files')
+        
+        #combotime
+        self.time_combo = builder.get_object('combotime')
         
         #checkbox
         self.cb_plot = builder.get_object('cb_plot')
@@ -226,16 +156,22 @@ class MyApplication:
         self.path = self.filepath.cget('path')
         _, _, self.files = next(walk(self.path))
         cwa_files=[]
+        time_files=[]
         
         for f in self.files:
             if f.endswith(".CWA"):
                 cwa_files.append(f)
                 
+        for f in self.files:
+            if f.endswith(".txt"):
+                time_files.append(f)
+                
+                
                 
         files=[f for f in cwa_files if f.find("D_")!=-1]
 
         self.file_combo.config(values=files)
-        
+        self.time_combo.config(values=time_files)
         
     def export_data(self,event=None):
         print("exporting data")
@@ -274,25 +210,46 @@ class MyApplication:
         
         self.lbl_files.configure(text = 'The files are %s and %s'%(self.files[0],self.files[1]))
         
+        
+    def on_time_selected(self,event=None):
+        
+        times=self.time_combo.get()
+        
+        pathtimes=os.path.join(self.path, times)
+        
+        print(times)
+        print(pathtimes)
+        
+        with open(pathtimes) as f:
+            # first_line = f.readline()
+            self.start_time=f.readline().strip()
+            self.stop_time=f.readline().strip()
+        
+        print("the start times from the file are")
+        print(self.start_time)
+        print("the stop times from the file are")
+        print(self.stop_time)
+        
+        
 
 
         
-    def select_date(self,event=None):
-        print("in select date")
-        dt=self.calendar.selection
+    # def select_date(self,event=None):
+    #     print("in select date")
+    #     dt=self.calendar.selection
         
-        date=dt.strftime('%d/%m/%Y %H:%M:%S')
+    #     date=dt.strftime('%d/%m/%Y %H:%M:%S')
         
-        print(date)
+    #     print(date)
         
-        self.ent_start.get()
+    #     self.ent_start.get()
 
-        self.ent_stop.get()
+    #     self.ent_stop.get()
         
-        self.ent_start.delete(0,"end")
-        self.ent_start.insert(0,date)
-        self.ent_stop.delete(0,"end")
-        self.ent_stop.insert(0,date)
+    #     self.ent_start.delete(0,"end")
+    #     self.ent_start.insert(0,date)
+    #     self.ent_stop.delete(0,"end")
+    #     self.ent_stop.insert(0,date)
         
 
         
@@ -301,7 +258,7 @@ class MyApplication:
         
     def Calculate_everything(self, event=None):
         print("Calculatingg....")
-        print(self.checked.get())
+        # print(self.checked.get())
         
         plot_all=self.checked.get()
         
@@ -313,9 +270,14 @@ class MyApplication:
             print("make sure that the file %s is Gauche"%(self.files[0]))
             pathDroite=os.path.join(self.path, self.files[1])
             pathGauche=os.path.join(self.path, self.files[0])
-            
+        
         start_timees=self.ent_start.get()
         end_timees=self.ent_stop.get()
+            
+        if len(start_timees)==0:
+            start_timees=self.start_time
+            end_timees=self.stop_time
+        
         
         start_timee=start_timees.split(',')
         
@@ -443,102 +405,36 @@ class MyApplication:
                     self.lbl_useratio.configure(text ='%.2f '%(self.bb.use_ratio))
                     self.lbl_maui.configure(text ='%.2f'%(self.bb.MAUI))
                     self.lbl_baui.configure(text ='%.2f'%(self.bb.BAUI))
-                    self.lbl_Dact_count.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                    self.lbl_Gact_count.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                    
-                    self.lbl_actprefhandzero.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                    self.lbl_actnonprefhandzero.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                    self.lbl_actprefhandnotzero.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                    self.lbl_actnonprefhandnotzero.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                    
-                    self.lbl_nonprefmoving.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                    self.lbl_prefmoving.configure(text ='%.2f '%(self.bb.prefmoving))
-                    self.lbl_bothmoving.configure(text ='%.2f '%(self.bb.bothmoving))
     
                 if i==1:
                     
                     self.lbl_useratio1.configure(text ='%.2f '%(self.bb.use_ratio))
                     self.lbl_maui1.configure(text ='%.2f'%(self.bb.MAUI))
                     self.lbl_baui1.configure(text ='%.2f'%(self.bb.BAUI))
-                    self.lbl_Dact_count1.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                    self.lbl_Gact_count1.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                    
-                    self.lbl_actprefhandzero1.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                    self.lbl_actnonprefhandzero1.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                    self.lbl_actprefhandnotzero1.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                    self.lbl_actnonprefhandnotzero1.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                    
-                    self.lbl_nonprefmoving1.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                    self.lbl_prefmoving1.configure(text ='%.2f '%(self.bb.prefmoving))
-                    self.lbl_bothmoving1.configure(text ='%.2f '%(self.bb.bothmoving))
                     
                 if i==2:
                     
                     self.lbl_useratio2.configure(text ='%.2f '%(self.bb.use_ratio))
                     self.lbl_maui2.configure(text ='%.2f'%(self.bb.MAUI))
                     self.lbl_baui2.configure(text ='%.2f'%(self.bb.BAUI))
-                    self.lbl_Dact_count2.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                    self.lbl_Gact_count2.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                    
-                    self.lbl_actprefhandzero2.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                    self.lbl_actnonprefhandzero2.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                    self.lbl_actprefhandnotzero2.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                    self.lbl_actnonprefhandnotzero2.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                    
-                    self.lbl_nonprefmoving2.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                    self.lbl_prefmoving2.configure(text ='%.2f '%(self.bb.prefmoving))
-                    self.lbl_bothmoving2.configure(text ='%.2f '%(self.bb.bothmoving))
                     
                 if i==3:
                     
                     self.lbl_useratio3.configure(text ='%.2f '%(self.bb.use_ratio))
                     self.lbl_maui3.configure(text ='%.2f'%(self.bb.MAUI))
                     self.lbl_baui3.configure(text ='%.2f'%(self.bb.BAUI))
-                    self.lbl_Dact_count3.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                    self.lbl_Gact_count3.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                    
-                    self.lbl_actprefhandzero3.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                    self.lbl_actnonprefhandzero3.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                    self.lbl_actprefhandnotzero3.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                    self.lbl_actnonprefhandnotzero3.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                    
-                    self.lbl_nonprefmoving3.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                    self.lbl_prefmoving3.configure(text ='%.2f '%(self.bb.prefmoving))
-                    self.lbl_bothmoving3.configure(text ='%.2f '%(self.bb.bothmoving))
     
                 if i==4:
                     
                     self.lbl_useratio4.configure(text ='%.2f '%(self.bb.use_ratio))
                     self.lbl_maui4.configure(text ='%.2f'%(self.bb.MAUI))
                     self.lbl_baui4.configure(text ='%.2f'%(self.bb.BAUI))
-                    self.lbl_Dact_count4.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                    self.lbl_Gact_count4.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                    
-                    self.lbl_actprefhandzero4.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                    self.lbl_actnonprefhandzero4.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                    self.lbl_actprefhandnotzero4.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                    self.lbl_actnonprefhandnotzero4.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                    
-                    self.lbl_nonprefmoving4.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                    self.lbl_prefmoving4.configure(text ='%.2f '%(self.bb.prefmoving))
-                    self.lbl_bothmoving4.configure(text ='%.2f '%(self.bb.bothmoving))
                     
                 if i==5:
                 
                     self.lbl_useratio5.configure(text ='%.2f '%(self.bb.use_ratio))
                     self.lbl_maui5.configure(text ='%.2f'%(self.bb.MAUI))
                     self.lbl_baui5.configure(text ='%.2f'%(self.bb.BAUI))
-                    self.lbl_Dact_count5.configure(text ='%d activities'%(self.bb.Droite_total_activity))
-                    self.lbl_Gact_count5.configure(text ='%d activities'%(self.bb.Gauche_total_activity))
-                    
-                    self.lbl_actprefhandzero5.configure(text ='%.2f '%(self.bb.actprefhandzero))
-                    self.lbl_actnonprefhandzero5.configure(text ='%.2f '%(self.bb.actnonprefhandzero))
-                    self.lbl_actprefhandnotzero5.configure(text ='%.2f '%(self.bb.actprefhandnotzero))
-                    self.lbl_actnonprefhandnotzero5.configure(text ='%.2f '%(self.bb.actnonprefhandnotzero))
-                    
-                    self.lbl_nonprefmoving5.configure(text ='%.2f '%(self.bb.nonprefmoving))
-                    self.lbl_prefmoving5.configure(text ='%.2f '%(self.bb.prefmoving))
-                    self.lbl_bothmoving5.configure(text ='%.2f '%(self.bb.bothmoving))
         
         for d in list_results:
             self.treeview.insert('', tk.END, values=d)

@@ -138,7 +138,7 @@ def axivity_parse_header(fh):
     
     for x in ('startTime', 'endTime', 'retrievalTime'):
         if x in ax_header:
-            print("ax_header['startTime']")
+            # print("ax_header['startTime']")
             if '/' in ax_header[x]:
                 ax_header[x] = time.strptime(ax_header[x], '%d/%m/%Y')
             else:
@@ -146,9 +146,9 @@ def axivity_parse_header(fh):
 
 
     lastClearTime = axivity_read_timestamp(lastClearTime)
-    print(lastClearTime)
+    # print(lastClearTime)
     lastChangeTime = axivity_read_timestamp(lastChangeTime)
-    print(lastChangeTime)
+    # print(lastChangeTime)
     firmwareVersion = firmwareVersion if firmwareVersion != 255 else 0
 
 

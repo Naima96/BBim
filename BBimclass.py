@@ -38,7 +38,6 @@ class BBim(object):
         if start_time!="":
             time1,x_ind1,x1,y1,z1 = load(pathDroite,startreading=start_time,stopreading=end_time)
             time2,x_ind2,x2,y2,z2 = load(pathGauche,startreading=start_time,stopreading=end_time)
-            print(len(time1))
         
             # self.ts2=ts2
             # ts1, header1 = data_loading.load(pathDroite)
@@ -163,9 +162,9 @@ class BBim(object):
             self.Gauche_signal=signal2_interp_trun
             self.Droite_signal=signal1_interp_trun
             
-            print(len(self.Gauche_signal))
+            # print(len(self.Gauche_signal))
             
-            print(len(self.Droite_signal))
+            # print(len(self.Droite_signal))
             
         else:
             header1 = load(pathDroite,startreading="",stopreading="")
@@ -257,6 +256,7 @@ class BBim(object):
 
         
     def Calculate_activity_count(self):
+        # no danger of inf values
         
         self.Act_count_gauche=main(self.Gauche_signal)
         
@@ -264,6 +264,7 @@ class BBim(object):
         
     def Calculate_vector_Magnitude(self):
         # calculation norm 
+        # no danger of inf values
         
         #--Gauche---
         x=self.Act_count_gauche['axis1'].values**2
@@ -293,7 +294,7 @@ class BBim(object):
         
         
     def Calculate_mean_median_VectorMagnitude(self,dominant_limb='gauche'):
-        
+        # no danger of inf values
         if dominant_limb=='gauche':
             self.Med_VM_dominant=np.median(self.Vect_mag_gauche)
             self.Med_VM_nondominant=np.median(self.Vect_mag_droite)
@@ -318,8 +319,8 @@ class BBim(object):
         
     def calculate_magnitude_ratio(self,dominant_limb='gauche',apply_filter=True):
         """
-        if I am not using the dominant then use ratio is zero 
-        If I am not using the dominant and non-dominant the use ratio is zero
+        if I am not using the dominant then mag ratio is infinity and this value is omitted 
+        If I am not using both the dominant and non-dominant this value is omitted
         
         I dont know if I am using the non dominant while not using the dominant becaus
         it is zero anyway
@@ -341,16 +342,21 @@ class BBim(object):
 
         
         if dominant_limb=='gauche':
-            self.mag_ratio=(self.Vect_mag_droite_filtered+1)/(self.Vect_mag_gauche_filtered+1)
+            # simply remove values which give infinity. this value is only calculated when dominant is moving.
+            self.mag_ratio=np.divide(self.Vect_mag_droite+1, self.Vect_mag_gauche+1, out=np.zeros_like(self.Vect_mag_droite)+10000, where=self.Vect_mag_gauche!=0)
+            self.mag_ratio=self.mag_ratio[np.where(self.mag_ratio!=10000)[0]]
+            # self.mag_ratio=(self.Vect_mag_droite_filtered+1)/(self.Vect_mag_gauche_filtered+1)
             # self.use_ratio=np.divide(self.Vect_mag_droite+1, self.Vect_mag_gauche+1, out=np.zeros_like(self.Vect_mag_droite), where=self.Vect_mag_gauche!=0)
             self.mag_ratio=np.log(self.mag_ratio)
         else:
-            self.mag_ratio=np.divide(self.Vect_mag_gauche+1, self.Vect_mag_droite+1, out=np.zeros_like(self.Vect_mag_gauche), where=self.Vect_mag_droite!=0)
+            self.mag_ratio=np.divide(self.Vect_mag_gauche+1, self.Vect_mag_droite+1, out=np.zeros_like(self.Vect_mag_gauche)+10000, where=self.Vect_mag_droite!=0)
+            self.mag_ratio=self.mag_ratio[np.where(self.mag_ratio!=10000)[0]]
             self.mag_ratio=np.log(self.mag_ratio)
             
             
     def Calculate_mean_median_Mag_ratio(self):
         
+        # there is a risk of been inf but now that we remove inf values it must be better
         self.Med_mag_ratio=np.median(self.mag_ratio)
         self.Mean_mag_ratio=np.mean(self.mag_ratio)
         
@@ -369,6 +375,7 @@ class BBim(object):
         None.
 
         """
+        # no risk of been inf
         
         if dominant_limb=="gauche":
             self.dominant_total_activity= np.sum(self.Vect_mag_gauche>vm_thresh)
@@ -382,15 +389,14 @@ class BBim(object):
         
         
     def Calculate_percent_activity(self,vm_thresh=10,dominant_limb='gauche'):
-        
-
-            
+        # no risk of inf
         self.percent_act_dominant=self.dominant_total_activity*100/len(self.Vect_mag_gauche)
         self.percent_act_nondominant=self.nondominant_total_activity*100/len(self.Vect_mag_gauche)
 
 
         
     def calculate_use_ratio(self,dominant="gauche"):
+        # no risk of inf
 
         self.use_ratio=self.nondominant_total_activity/self.dominant_total_activity
         
@@ -419,6 +425,7 @@ class BBim(object):
         None.
 
         """
+        #no risk of inf
         
         N=5
         
@@ -429,7 +436,7 @@ class BBim(object):
         
         
     def Calculate_mean_median_bilateral(self):
-        
+        #no risk of inf
         self.Med_bilateral=np.median(self.bilateral_magnitude)
         self.Mean_bilateral=np.mean(self.bilateral_magnitude)
         
@@ -460,7 +467,7 @@ class BBim(object):
         self.magnitude_ratio_remove_zero=self.use_ratio[(self.bilateral_magnitude >= thresh) | (self.bilateral_magnitude <= -thresh)]
         
         # bin_range = int((max(self.bilateral_magnitude_remove_zero)) - min(self.bilateral_magnitude_remove_zero))+1
-        plt.figure()
+        # plt.figure()
         # freq,bins=np.histogram(self.bilateral_magnitude_remove_zero, bins=bin_range)
         n_bm, bins_bm, patches= plt.hist(self.bilateral_magnitude_remove_zero, bins='auto')
         plt.grid(axis='y', alpha=0.75)
@@ -473,7 +480,7 @@ class BBim(object):
         plt.ylim(ymax=np.ceil(maxfreq / 10) * 10 if maxfreq % 10 else maxfreq + 10)
                 
         # bin_range = int((max(self.magnitude_ratio_remove_zero)) - min(self.magnitude_ratio_remove_zero))+1
-        plt.figure()
+        # plt.figure()
         # freq,bins=np.histogram(self.magnitude_ratio_remove_zero, bins=bin_range)
         n_mr, bins_mr, patches = plt.hist(self.magnitude_ratio_remove_zero, bins='auto')
         plt.grid(axis='y', alpha=0.75)
@@ -516,10 +523,12 @@ class BBim(object):
             self.pref_moving_n_nonpref_notmoving=np.sum((self.Vect_mag_droite>=vm_thresh) & (self.Vect_mag_gauche<vm_thresh))
             
             self.nonprefnotmoving=np.sum(self.Vect_mag_gauche<vm_thresh)
-            self.prefnotmovingnp.sum(self.Vect_mag_droite<vm_thresh)
+            self.prefnotmoving=np.sum(self.Vect_mag_droite<vm_thresh)
             
             self.pref_moving=self.dominant_total_activity
             self.nonpref_moving=self.nondominant_total_activity
+            
+            self.MAUI=Activity_count_nondom/Activity_count_dom
 
             print("droite is dominant")
             

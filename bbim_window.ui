@@ -32,6 +32,7 @@
                     <property name="text" translatable="yes">Choose subject</property>
                     <property name="width">200</property>
                     <layout manager="pack">
+                      <property name="pady">20</property>
                       <property name="propagate">True</property>
                       <property name="side">top</property>
                     </layout>
@@ -71,7 +72,6 @@
                       <object class="ttk.Entry" id="ent_start">
                         <property name="justify">center</property>
                         <property name="takefocus">false</property>
-                        <property name="text" translatable="yes">21/01/2021 14:00:00</property>
                         <property name="validate">none</property>
                         <layout manager="grid">
                           <property name="column">1</property>
@@ -92,7 +92,6 @@
                     </child>
                     <child>
                       <object class="ttk.Entry" id="ent_stop">
-                        <property name="text" translatable="yes">21/01/2021 14:15:00</property>
                         <property name="validate">none</property>
                         <layout manager="grid">
                           <property name="column">1</property>
@@ -224,6 +223,37 @@
                         </layout>
                       </object>
                     </child>
+                    <child>
+                      <object class="ttk.Label" id="label_31">
+                        <property name="text" translatable="yes">Choose time file</property>
+                        <layout manager="grid">
+                          <property name="column">0</property>
+                          <property name="propagate">True</property>
+                          <property name="row">10</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Combobox" id="combotime">
+                        <bind sequence="&lt;&lt;ComboboxSelected&gt;&gt;" handler="on_time_selected" add="" />
+                        <layout manager="grid">
+                          <property name="column">1</property>
+                          <property name="propagate">True</property>
+                          <property name="row">10</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Label" id="label_32">
+                        <property name="text" translatable="yes">The times should be seperated by comma ",". Start time should be written on first line and Stop on second line.</property>
+                        <layout manager="grid">
+                          <property name="column">0</property>
+                          <property name="columnspan">2</property>
+                          <property name="propagate">True</property>
+                          <property name="row">11</property>
+                        </layout>
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child>
@@ -274,28 +304,6 @@
                         <property name="state">normal</property>
                         <property name="text" translatable="yes">plot ?</property>
                         <property name="variable">boolean:var_plot</property>
-                        <layout manager="pack">
-                          <property name="propagate">True</property>
-                          <property name="side">top</property>
-                        </layout>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="ttk.Labelframe" id="labelframe_1_2">
-                    <property name="height">200</property>
-                    <property name="text" translatable="yes">labelframe_1_2</property>
-                    <property name="width">200</property>
-                    <layout manager="pack">
-                      <property name="propagate">True</property>
-                      <property name="side">top</property>
-                    </layout>
-                    <child>
-                      <object class="pygubu.builder.widgets.calendarframe" id="calendarframe">
-                        <property name="firstweekday">6</property>
-                        <property name="month">1</property>
-                        <bind sequence="&lt;&lt;CalendarFrameDateSelected&gt;&gt;" handler="select_date" add="" />
                         <layout manager="pack">
                           <property name="propagate">True</property>
                           <property name="side">top</property>
@@ -990,14 +998,14 @@
                           </object>
                         </child>
                         <child>
-                          <object class="ttk.Labelframe" id="labelframe_7">
+                          <object class="ttk.Labelframe" id="labelframe_7_38_1">
                             <property name="height">200</property>
                             <property name="relief">flat</property>
                             <property name="text" translatable="yes">Results </property>
                             <property name="width">200</property>
                             <layout manager="pack" />
                             <child>
-                              <object class="ttk.Label" id="label_4">
+                              <object class="ttk.Label" id="label_4_57_1">
                                 <property name="text" translatable="yes">Use ratio</property>
                                 <layout manager="grid">
                                   <property name="propagate">True</property>
@@ -1005,7 +1013,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="lbl_useratio">
+                              <object class="ttk.Label" id="lbl_useratio0">
                                 <property name="background">#ffff80</property>
                                 <property name="text" translatable="yes">0</property>
                                 <layout manager="grid">
@@ -1017,7 +1025,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_6">
+                              <object class="ttk.Label" id="label_6_59_3">
                                 <property name="text" translatable="yes">BAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -1027,7 +1035,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="lbl_baui">
+                              <object class="ttk.Label" id="lbl_baui0">
                                 <property name="background">#ffff80</property>
                                 <property name="text" translatable="yes">0</property>
                                 <layout manager="grid">
@@ -1038,7 +1046,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_8">
+                              <object class="ttk.Label" id="label_8_61_5">
                                 <property name="text" translatable="yes">MAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -1048,202 +1056,13 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="lbl_maui">
+                              <object class="ttk.Label" id="lbl_maui0">
                                 <property name="background">#ffff80</property>
                                 <property name="text" translatable="yes">0</property>
                                 <layout manager="grid">
                                   <property name="column">1</property>
                                   <property name="propagate">True</property>
                                   <property name="row">2</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_12">
-                                <property name="text" translatable="yes">Gauche Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_Gact_count">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_14">
-                                <property name="text" translatable="yes">Droite Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_Dact_count">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_3_4">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_5">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_6_7">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand not =  0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_8_9">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand not = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandzero">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandzero">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandnotzero">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandnotzero">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothhandsaremoving">
-                                <property name="text" translatable="yes">Time both hand moving &gt;10</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_19">
-                                <property name="text" translatable="yes">Time pref hand moving and non pref hand not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_20">
-                                <property name="text" translatable="yes">Time non pref hand moving while pref hand  not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothmoving">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_23</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_prefmoving">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_24</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_nonprefmoving">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_25</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
                                 </layout>
                               </object>
                             </child>
@@ -1347,195 +1166,6 @@
                                 </layout>
                               </object>
                             </child>
-                            <child>
-                              <object class="ttk.Label" id="label_12_63">
-                                <property name="text" translatable="yes">Gauche Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_gact_count1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_14_65">
-                                <property name="text" translatable="yes">Droite Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_dact_count1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_3_4_67">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_5_68">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_6_7_69">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand not =  0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_8_9_70">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand not = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandzero1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandzero1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandnotzero1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandnotzero1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothhandsaremoving1">
-                                <property name="text" translatable="yes">Time both hand moving &gt;10</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_19_76">
-                                <property name="text" translatable="yes">Time pref hand moving and non pref hand not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_20_77">
-                                <property name="text" translatable="yes">Time non pref hand moving while pref hand  not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothmoving1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_23</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_prefmoving1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_24</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_nonprefmoving1">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_25</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
-                                </layout>
-                              </object>
-                            </child>
                           </object>
                         </child>
                       </object>
@@ -1568,14 +1198,14 @@
                           </object>
                         </child>
                         <child>
-                          <object class="ttk.Labelframe" id="labelframe_7_38_40">
+                          <object class="ttk.Labelframe" id="labelframe_7_38_2">
                             <property name="height">200</property>
                             <property name="relief">flat</property>
                             <property name="text" translatable="yes">Results </property>
                             <property name="width">200</property>
                             <layout manager="pack" />
                             <child>
-                              <object class="ttk.Label" id="label_4_57_81">
+                              <object class="ttk.Label" id="label_4_57_7">
                                 <property name="text" translatable="yes">Use ratio</property>
                                 <layout manager="grid">
                                   <property name="propagate">True</property>
@@ -1595,7 +1225,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_6_59_83">
+                              <object class="ttk.Label" id="label_6_59_9">
                                 <property name="text" translatable="yes">BAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -1616,7 +1246,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_8_61_85">
+                              <object class="ttk.Label" id="label_8_61_11">
                                 <property name="text" translatable="yes">MAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -1633,195 +1263,6 @@
                                   <property name="column">1</property>
                                   <property name="propagate">True</property>
                                   <property name="row">2</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_12_63_87">
-                                <property name="text" translatable="yes">Gauche Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_gact_count2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_14_65_89">
-                                <property name="text" translatable="yes">Droite Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_dact_count2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_3_4_67_91">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_5_68_92">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_6_7_69_93">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand not =  0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_8_9_70_94">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand not = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandzero2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandzero2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandnotzero2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandnotzero2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothhandsaremoving2">
-                                <property name="text" translatable="yes">Time both hand moving &gt;10</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_19_76_100">
-                                <property name="text" translatable="yes">Time pref hand moving and non pref hand not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_20_77_101">
-                                <property name="text" translatable="yes">Time non pref hand moving while pref hand  not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothmoving2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_23</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_prefmoving2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_24</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_nonprefmoving2">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_25</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
                                 </layout>
                               </object>
                             </child>
@@ -1857,14 +1298,14 @@
                           </object>
                         </child>
                         <child>
-                          <object class="ttk.Labelframe" id="labelframe_7_38_42">
+                          <object class="ttk.Labelframe" id="labelframe_7_38_3">
                             <property name="height">200</property>
                             <property name="relief">flat</property>
                             <property name="text" translatable="yes">Results </property>
                             <property name="width">200</property>
                             <layout manager="pack" />
                             <child>
-                              <object class="ttk.Label" id="label_4_57_105">
+                              <object class="ttk.Label" id="label_4_57_13">
                                 <property name="text" translatable="yes">Use ratio</property>
                                 <layout manager="grid">
                                   <property name="propagate">True</property>
@@ -1884,7 +1325,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_6_59_107">
+                              <object class="ttk.Label" id="label_6_59_15">
                                 <property name="text" translatable="yes">BAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -1905,7 +1346,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_8_61_109">
+                              <object class="ttk.Label" id="label_8_61_17">
                                 <property name="text" translatable="yes">MAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -1922,195 +1363,6 @@
                                   <property name="column">1</property>
                                   <property name="propagate">True</property>
                                   <property name="row">2</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_12_63_111">
-                                <property name="text" translatable="yes">Gauche Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_gact_count3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_14_65_113">
-                                <property name="text" translatable="yes">Droite Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_dact_count3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_3_4_67_115">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_5_68_116">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_6_7_69_117">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand not =  0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_8_9_70_118">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand not = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandzero3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandzero3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandnotzero3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandnotzero3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothhandsaremoving3">
-                                <property name="text" translatable="yes">Time both hand moving &gt;10</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_19_76_124">
-                                <property name="text" translatable="yes">Time pref hand moving and non pref hand not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_20_77_125">
-                                <property name="text" translatable="yes">Time non pref hand moving while pref hand  not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothmoving3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_23</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_prefmoving3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_24</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_nonprefmoving3">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_25</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
                                 </layout>
                               </object>
                             </child>
@@ -2146,14 +1398,14 @@
                           </object>
                         </child>
                         <child>
-                          <object class="ttk.Labelframe" id="labelframe_7_38_44">
+                          <object class="ttk.Labelframe" id="labelframe_7_38_4">
                             <property name="height">200</property>
                             <property name="relief">flat</property>
                             <property name="text" translatable="yes">Results </property>
                             <property name="width">200</property>
                             <layout manager="pack" />
                             <child>
-                              <object class="ttk.Label" id="label_4_57_129">
+                              <object class="ttk.Label" id="label_4_57_19">
                                 <property name="text" translatable="yes">Use ratio</property>
                                 <layout manager="grid">
                                   <property name="propagate">True</property>
@@ -2173,7 +1425,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_6_59_131">
+                              <object class="ttk.Label" id="label_6_59_21">
                                 <property name="text" translatable="yes">BAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -2194,7 +1446,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_8_61_133">
+                              <object class="ttk.Label" id="label_8_61_23">
                                 <property name="text" translatable="yes">MAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -2211,195 +1463,6 @@
                                   <property name="column">1</property>
                                   <property name="propagate">True</property>
                                   <property name="row">2</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_12_63_135">
-                                <property name="text" translatable="yes">Gauche Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_gact_count4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_14_65_137">
-                                <property name="text" translatable="yes">Droite Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_dact_count4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_3_4_67_139">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_5_68_140">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_6_7_69_141">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand not =  0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_8_9_70_142">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand not = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandzero4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandzero4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandnotzero4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandnotzero4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothhandsaremoving4">
-                                <property name="text" translatable="yes">Time both hand moving &gt;10</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_19_76_148">
-                                <property name="text" translatable="yes">Time pref hand moving and non pref hand not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_20_77_149">
-                                <property name="text" translatable="yes">Time non pref hand moving while pref hand  not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothmoving4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_23</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_prefmoving4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_24</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_nonprefmoving4">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_25</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
                                 </layout>
                               </object>
                             </child>
@@ -2435,14 +1498,14 @@
                           </object>
                         </child>
                         <child>
-                          <object class="ttk.Labelframe" id="labelframe_7_38_46">
+                          <object class="ttk.Labelframe" id="labelframe_7_38_5">
                             <property name="height">200</property>
                             <property name="relief">flat</property>
                             <property name="text" translatable="yes">Results </property>
                             <property name="width">200</property>
                             <layout manager="pack" />
                             <child>
-                              <object class="ttk.Label" id="label_4_57_153">
+                              <object class="ttk.Label" id="label_4_57_25">
                                 <property name="text" translatable="yes">Use ratio</property>
                                 <layout manager="grid">
                                   <property name="propagate">True</property>
@@ -2462,7 +1525,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_6_59_155">
+                              <object class="ttk.Label" id="label_6_59_27">
                                 <property name="text" translatable="yes">BAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -2483,7 +1546,7 @@
                               </object>
                             </child>
                             <child>
-                              <object class="ttk.Label" id="label_8_61_157">
+                              <object class="ttk.Label" id="label_8_61_29">
                                 <property name="text" translatable="yes">MAUI</property>
                                 <layout manager="grid">
                                   <property name="column">0</property>
@@ -2500,195 +1563,6 @@
                                   <property name="column">1</property>
                                   <property name="propagate">True</property>
                                   <property name="row">2</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_12_63_159">
-                                <property name="text" translatable="yes">Gauche Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_gact_count5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">3</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_14_65_161">
-                                <property name="text" translatable="yes">Droite Total activity count</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_dact_count5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">4</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_3_4_67_163">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_5_68_164">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_6_7_69_165">
-                                <property name="text" translatable="yes">Sum Activity of non-preferred hand such as Activity count of preferred hand not =  0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_8_9_70_166">
-                                <property name="text" translatable="yes">Sum Activity of preferred hand such as Activity count of non-preferred hand not = 0</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandzero5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">5</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandzero5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">6</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actprefhandnotzero5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">7</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_actnonprefhandnotzero5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">0</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">8</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothhandsaremoving5">
-                                <property name="text" translatable="yes">Time both hand moving &gt;10</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_19_76_172">
-                                <property name="text" translatable="yes">Time pref hand moving and non pref hand not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="label_20_77_173">
-                                <property name="text" translatable="yes">Time non pref hand moving while pref hand  not moving</property>
-                                <layout manager="grid">
-                                  <property name="column">0</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_bothmoving5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_23</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">9</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_prefmoving5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_24</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">10</property>
-                                </layout>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="ttk.Label" id="lbl_nonprefmoving5">
-                                <property name="background">#ffff80</property>
-                                <property name="text" translatable="yes">label_25</property>
-                                <layout manager="grid">
-                                  <property name="column">1</property>
-                                  <property name="propagate">True</property>
-                                  <property name="row">11</property>
                                 </layout>
                               </object>
                             </child>
